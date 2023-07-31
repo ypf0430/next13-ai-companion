@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/toaster';
 import { ProModal } from '@/components/pro-modal';
+import { DemoModal } from '@/components/demo-modal';
 
 import './globals.css'
 
@@ -27,6 +28,7 @@ export default function RootLayout({
         <body className={cn("bg-secondary", inter.className)}>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
             <ProModal />
+            <DemoModal />
             {children}
             <Toaster />
           </ThemeProvider>

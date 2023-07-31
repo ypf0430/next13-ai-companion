@@ -6,38 +6,40 @@ import { checkSubscription } from "@/lib/subscription";
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const user = await currentUser();
-    const { src, name, description, instructions, seed, categoryId } = body;
+    return new NextResponse("Disabled for demo, clone from master to try it out", { status: 500 });
 
-    if (!user || !user.id || !user.firstName) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
+    // const body = await req.json();
+    // const user = await currentUser();
+    // const { src, name, description, instructions, seed, categoryId } = body;
 
-    if (!src || !name || !description || !instructions || !seed || !categoryId) {
-      return new NextResponse("Missing required fields", { status: 400 });
-    };
+    // if (!user || !user.id || !user.firstName) {
+    //   return new NextResponse("Unauthorized", { status: 401 });
+    // }
 
-    const isPro = await checkSubscription();
+    // if (!src || !name || !description || !instructions || !seed || !categoryId) {
+    //   return new NextResponse("Missing required fields", { status: 400 });
+    // };
 
-    if (!isPro) {
-      return new NextResponse("Pro subscription required", { status: 403 });
-    }
+    // const isPro = await checkSubscription();
 
-    const companion = await prismadb.companion.create({
-      data: {
-        categoryId,
-        userId: user.id,
-        userName: user.firstName,
-        src,
-        name,
-        description,
-        instructions,
-        seed,
-      }
-    });
+    // if (!isPro) {
+    //   return new NextResponse("Pro subscription required", { status: 403 });
+    // }
 
-    return NextResponse.json(companion);
+    // const companion = await prismadb.companion.create({
+    //   data: {
+    //     categoryId,
+    //     userId: user.id,
+    //     userName: user.firstName,
+    //     src,
+    //     name,
+    //     description,
+    //     instructions,
+    //     seed,
+    //   }
+    // });
+
+    // return NextResponse.json(companion);
   } catch (error) {
     console.log("[COMPANION_POST]", error);
     return new NextResponse("Internal Error", { status: 500 });
