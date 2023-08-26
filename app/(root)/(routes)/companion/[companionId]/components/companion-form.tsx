@@ -46,9 +46,9 @@ const formSchema = z.object({
   seed: z.string().min(200, {
     message: "Seed requires at least 200 characters."
   }),
-  src: z.string().min(1, {
-    message: "Image is required."
-  }),
+  // src: z.string().min(1, {
+  //   message: "Image is required."
+  // }),
   categoryId: z.string().min(1, {
     message: "Category is required",
   }),
@@ -73,7 +73,6 @@ export const CompanionForm = ({
       description: "",
       instructions: "",
       seed: "",
-      src: "",
       categoryId: undefined,
     },
   });
@@ -82,6 +81,7 @@ export const CompanionForm = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
+      console.log("dddd")
       if (initialData) {
         await axios.patch(`/api/companion/${initialData.id}`, values);
       } else {
