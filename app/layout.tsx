@@ -26,7 +26,7 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <body className={cn("bg-secondary", inter.className)}>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-            {/* <ProModal /> */}
+            <ProModal />
             {children}
             <Toaster />
           </ThemeProvider>

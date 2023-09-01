@@ -40,16 +40,16 @@ export const Companions = ({
             <CardHeader className="flex items-center justify-center text-center text-muted-foreground">
               <div className="relative w-32 h-32">
                 <Image
-                  src={item.src}
+                  src="/man.png"
                   fill
                   className="rounded-xl object-cover"
                   alt="Character"
                 />
               </div>
-              <p className="font-bold">
+              <p className="font-bold text-4xl">
                 {item.name}
               </p>
-              <p className="text-xs">
+              <p className="text-40">
                 {item.description}
               </p>
             </CardHeader>
