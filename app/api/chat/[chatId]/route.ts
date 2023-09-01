@@ -25,6 +25,7 @@ export async function POST(
 
     const identifier = request.url + "-" + user.id;
     const { success } = await rateLimit(identifier);
+    console.log("1");
 
     if (!success) {
       return new NextResponse("Rate limit exceeded", { status: 429 });
@@ -58,7 +59,7 @@ export async function POST(
       modelName: "llama2-13b",
     };
     const memoryManager = await MemoryManager.getInstance();
-
+    console.log("2");
     const records = await memoryManager.readLatestHistory(companionKey);
     if (records.length === 0) {
       await memoryManager.seedChatHistory(companion.seed, "\n\n", companionKey);
@@ -66,21 +67,22 @@ export async function POST(
     await memoryManager.writeToHistory("User: " + prompt + "\n", companionKey);
 
     // Query Pinecone
-
+    console.log("3");
     const recentChatHistory = await memoryManager.readLatestHistory(companionKey);
 
     // Right now the preamble is included in the similarity search, but that
     // shouldn't be an issue
 
-    const similarDocs = await memoryManager.vectorSearch(
-      recentChatHistory,
-      companion_file_name
-    );
+    // const similarDocs = await memoryManager.vectorSearch(
+    //   recentChatHistory,
+    //   companion_file_name
+    // );
 
-    let relevantHistory = "";
-    if (!!similarDocs && similarDocs.length !== 0) {
-      relevantHistory = similarDocs.map((doc) => doc.pageContent).join("\n");
-    }
+    console.log("4");
+    // let relevantHistory = "";
+    // if (!!similarDocs && similarDocs.length !== 0) {
+    //   relevantHistory = similarDocs.map((doc) => doc.pageContent).join("\n");
+    // }
     const { handlers } = LangChainStream();
     // Call Replicate for inference
     const model = new Replicate({
@@ -92,7 +94,7 @@ export async function POST(
       apiKey: process.env.REPLICATE_API_TOKEN,
       callbackManager: CallbackManager.fromHandlers(handlers),
     });
-
+    console.log("5");
     // Turn verbose on for debugging
     model.verbose = true;
 
@@ -105,7 +107,7 @@ export async function POST(
         ${companion.instructions}
 
         Below are relevant details about ${companion.name}'s past and the conversation you are in.
-        ${relevantHistory}
+      
 
 
         ${recentChatHistory}\n${companion.name}:`
@@ -119,6 +121,7 @@ export async function POST(
 
     await memoryManager.writeToHistory("" + response.trim(), companionKey);
     var Readable = require("stream").Readable;
+    console.log("6");
 
     let s = new Readable();
     s.push(response);
